@@ -113,12 +113,11 @@ pipeline {
      }
   } 
       
-     post {
-       success {
-         slackSend (color: '#00FF00', message: "Imarate Pipeline: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-         }
-      failure {
-            slackSend (color: '#FF0000', message: "Failed: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-          }   
-    }
+       post {
+    always {
+      script {
+        slackNotifier currentBuild.result
+      }
+    }  
+  }
 }
